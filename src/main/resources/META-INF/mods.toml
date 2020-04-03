@@ -36,6 +36,6 @@ Jei addon that shows beacon blocks, beacon payments, and conduit bases
 [[dependencies.justenoughbeacons]]
     modId="forge"
     mandatory=true
-    versionRange="[28.1.91,)"
+    versionRange="[31.1.14,)"
     ordering="NONE"
     side="CLIENT"
