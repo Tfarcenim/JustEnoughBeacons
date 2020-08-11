@@ -1,7 +1,7 @@
 package com.tfar.justenoughbeacons.jei.beaconblock;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.BlockTags;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 
 public class BeaconBlockRecipe {
 
-  public static final List<Block> special = new ArrayList<>();
-
   public static List<ItemStack> cache = new ArrayList<>();
 
   public final int index;
@@ -19,29 +17,18 @@ public class BeaconBlockRecipe {
     this.index = index;
   }
 
-  public List<ItemStack> getBeaconBlockSublist(){
+  public List<ItemStack> getBeaconBlockSublist() {
     return cache.subList(28 * index , Math.min(28 * index + 28, cache.size()));
   }
 
-  public static void refresh(){
-    special.clear();
+  public static void refresh() {
     cache.clear();
     cache = getBeaconBlocks();
   }
 
   private static List<ItemStack> getBeaconBlocks(){
     return ForgeRegistries.BLOCKS.getValues().stream()
-            .filter(block ->
-                    {
-                      try {
-                        return block.isBeaconBase(
-                                block.getDefaultState(), null, null, null);
-                      } catch (NullPointerException specialblock){
-                        BeaconBlockRecipe.special.add(block);
-                        return false;
-                      }
-                    }
-            )
+            .filter(block -> block.isIn(BlockTags.BEACON_BASE_BLOCKS))
             .map(ItemStack::new).collect(Collectors.toList());
   }
 }

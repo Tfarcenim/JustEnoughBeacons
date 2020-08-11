@@ -1,6 +1,7 @@
 package com.tfar.justenoughbeacons.jei.beaconpayment;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.ItemTags;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class BeaconPaymentRecipe {
     return ForgeRegistries.ITEMS
             .getValues()
             .stream()
-            .filter(item -> item.isBeaconPayment(new ItemStack(item)))
+            .filter(item -> item.isIn(ItemTags.field_232908_Z_))
             .map(ItemStack::new).collect(Collectors.toList());
   }
 }
