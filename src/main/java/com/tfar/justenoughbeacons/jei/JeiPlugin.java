@@ -18,7 +18,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -29,7 +28,6 @@ public class JeiPlugin implements IModPlugin {
   public static final ResourceLocation BEACON_BLOCK = new ResourceLocation(JustEnoughBeacons.MODID,"block");
 
   public static final ResourceLocation CONDUIT = new ResourceLocation(JustEnoughBeacons.MODID,"conduit");
-
   public static final ResourceLocation BACKGROUND = new ResourceLocation(JustEnoughBeacons.MODID, "textures/gui/arrow.png");
 
   @Override
@@ -59,7 +57,11 @@ public class JeiPlugin implements IModPlugin {
     IntStream.range(0,beaconpaymentpages).forEach(i -> recipes.add(new BeaconPaymentRecipe(i)));
     registration.addRecipes(recipes, BEACON_PAYMENT);
 
-    registration.addRecipes(Collections.singleton(new ConduitBaseRecipe()), CONDUIT);
+    ConduitBaseRecipe.refresh();
+    int conduitpaymentpages = (int)Math.ceil(BeaconPaymentRecipe.cache.size()/28d);
+    List<ConduitBaseRecipe> conduitBaseRecipes = new ArrayList<>();
+    IntStream.range(0,conduitpaymentpages).forEach(i -> conduitBaseRecipes.add(new ConduitBaseRecipe(i)));
+    registration.addRecipes(conduitBaseRecipes, CONDUIT);
   }
 
   @Override
@@ -67,6 +69,5 @@ public class JeiPlugin implements IModPlugin {
     registration.addRecipeCatalyst(new ItemStack(Blocks.BEACON), BEACON_BLOCK);
     registration.addRecipeCatalyst(new ItemStack(Blocks.BEACON), BEACON_PAYMENT);
     registration.addRecipeCatalyst(new ItemStack(Blocks.CONDUIT), CONDUIT);
-
   }
 }
